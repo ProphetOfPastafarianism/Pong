@@ -14,7 +14,10 @@ public class PongGame extends JPanel implements MouseMotionListener {
     private int aiScore;
     private Ball ball;
     // step 1 add any other private variables you may need to play the game.
-
+    private Paddle playerPaddle;
+    private Wall wall;
+    private Speedup green;
+    private SlowDown red;
     public PongGame() {
 
         aiPaddle = new Paddle(610, 240, 50, 9, Color.WHITE);
@@ -29,6 +32,8 @@ public class PongGame extends JPanel implements MouseMotionListener {
         ball = new Ball(200, 200, 10, 3, Color.RED, 10);
 
         //create any other objects necessary to play the game.
+        playerPaddle = new Paddle(40, 45, 50, 9, Color.WHITE);
+        wall = new Wall(200, 300, 10, 3, Color.WHITE);
 
     }
 
@@ -55,9 +60,13 @@ public class PongGame extends JPanel implements MouseMotionListener {
         g.drawString("The Score is User:" + playerScore + " vs Ai:" + aiScore, 240, 20);
         ball.draw(g);
         aiPaddle.draw(g);
-        
         //call the "draw" function of any visual component you'd like to show up on the screen.
-
+        playerPaddle.draw(g);
+        wall.draw(g);
+        g.setColor(Color.GREEN);
+        green.draw(g);
+        g.setColor(Color.RED);
+        red.draw(g);
     }
 
     // precondition: all required visual components are intialized to non-null
@@ -67,11 +76,15 @@ public class PongGame extends JPanel implements MouseMotionListener {
         //add commands here to make the game play propperly
         
         aiPaddle.moveY(ball.getY());
-
+        playerPaddle.moveY(userMouseY);
+        
+        if (playerPaddle.isTouching(ball)) {
+            ball.reverseX();
+        }
         if (aiPaddle.isTouching(ball)) {
            ball.reverseX();
         }
- 
+        
         pointScored();
 
     }
@@ -83,7 +96,16 @@ public class PongGame extends JPanel implements MouseMotionListener {
     // pixels) and the ai scores
     // if the ball goes off the left edge (0)
     public void pointScored() {
-
+        //SHOULD BE DONE
+        if (ball.getX()<=0) {
+            playerScore+=1;
+            ball = new Ball(200, 200, 10, 3, Color.RED, 10);
+        }
+        if (ball.getX()>=640) {
+            aiScore+=1;
+            ball = new Ball(200, 200, 10, 3, Color.RED, 10);
+        }
+        
     }
 
     // you do not need to edit the below methods, but please do not remove them as
