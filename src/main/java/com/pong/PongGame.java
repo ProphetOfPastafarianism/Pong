@@ -93,11 +93,21 @@ public class PongGame extends JPanel implements MouseMotionListener {
         if (wall.isTouching(ball)) {
             ball.reverseX();
         }
-        if (red.isTouching(ball)&&ball.getChangeX()<=5.0) {
-            ball.setChangeX(0.01);    
+        if (red.isTouching(ball)) {
+        if (ball.getChangeX()>0.0){
+            ball.setChangeX(1.0);   
+            }
+        if (ball.getChangeX()<0.0){
+            ball.setChangeX(-1.0);       
         }
-        if (green.isTouching(ball)&&changeX()>=20.0) {
-            ball.setChangeX(-0.01);
+        }
+        if (green.isTouching(ball)) {
+            if (ball.getChangeX()<=20.0){
+            ball.setChangeX(-0.01);   
+            }
+            if (ball.getChangeX()>=-20.0){
+            ball.setChangeX(0.01);       
+            }
         }
         pointScored();
 
