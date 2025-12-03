@@ -33,9 +33,9 @@ public class PongGame extends JPanel implements MouseMotionListener {
 
         //create any other objects necessary to play the game.
         playerPaddle = new Paddle(20, 240, 50, 9, Color.WHITE);
-        wall = new Wall(200, 300, 50, 9, Color.WHITE);
-        red = new SlowDown(320,390,90,90);
-        green = new Speedup(300,50,80,90);
+        wall = new Wall(330, 170, 120, 9, Color.WHITE);
+        green = new Speedup(400,40,120,90);
+        red = new SlowDown(200,290,120,90);
     }
 
     // precondition: None
@@ -76,13 +76,15 @@ public class PongGame extends JPanel implements MouseMotionListener {
         //add commands here to make the game play propperly
         
         aiPaddle.moveY(ball.getY());
-        playerPaddle.moveY(userMouseY);
+        playerPaddle.moveY(ball.getY());
         ball.moveBall();
-        if (playerPaddle.isTouching(ball)) {
+        if (playerPaddle.isTouching(ball)){
+            ball.setX(33); 
             ball.reverseX();
         }
         if (aiPaddle.isTouching(ball)) {
-           ball.reverseX();
+          ball.setX(597); 
+            ball.reverseX();
         }
         if (ball.getY()<=10){
             ball.reverseY();
@@ -94,19 +96,13 @@ public class PongGame extends JPanel implements MouseMotionListener {
             ball.reverseX();
         }
         if (red.isTouching(ball)) {
-        if (ball.getChangeX()>0.0){
-            ball.setChangeX(1.0);   
+        if (ball.getChangeX()>=8.0 || ball.getChangeX()<=-8.0){
+            ball.setChangeX(ball.getChangeX()*0.95);     
             }
-        if (ball.getChangeX()<0.0){
-            ball.setChangeX(-1.0);       
-        }
         }
         if (green.isTouching(ball)) {
-            if (ball.getChangeX()<=20.0){
-            ball.setChangeX(-0.01);   
-            }
-            if (ball.getChangeX()>=-20.0){
-            ball.setChangeX(0.01);       
+            if (ball.getChangeX()<=11.0 || ball.getChangeX()>=-11.0){
+            ball.setChangeX(ball.getChangeX()*1.05);   
             }
         }
         pointScored();
